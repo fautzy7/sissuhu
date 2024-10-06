@@ -104,7 +104,7 @@ pub async fn mine(args: MineArgs, url: String , username: String)  {
         let version = env!("CARGO_PKG_VERSION");
         let auth = BASE64_STANDARD.encode(format!("{}/{}", username,version));
 
-        println!("Connecting to server...");
+        println!("jagoan");
         let request = Request::builder()
             .method("GET")
             .uri(url.to_string())
@@ -119,7 +119,7 @@ pub async fn mine(args: MineArgs, url: String , username: String)  {
 
         match connect_async(request).await {
             Ok((ws_stream, _)) => {
-                println!("Connected to network!");
+                println!("gojo nurgo");
 
                 let (sender, mut receiver) = ws_stream.split();
                 let sender = Arc::new(Mutex::new(sender));
@@ -152,7 +152,7 @@ pub async fn mine(args: MineArgs, url: String , username: String)  {
                             break
                         }
                         if last_activity_time.elapsed().as_secs() >= (idle_time  as u64) {
-                            println!("Idle for too long, disconnecting and reconnecting...");
+                            println!("suewe, opo iki");
                             let mut sender = sender_clone.lock().await;
                             let _ = sender.send(Message::Close(None)).await;
                             break;
@@ -166,7 +166,7 @@ pub async fn mine(args: MineArgs, url: String , username: String)  {
                     match msg {
                         ServerMessage::StartMining(challenge, nonce_range, cutoff) => {
                             *last_activity_clone.lock().await = Instant::now();
-                            println!("Received start mining message , Nonce range: {} - {}", nonce_range.start, nonce_range.end);
+                            println!("Received mulai tok , suikonu: {} - {}", nonce_range.start, nonce_range.end);
                             let hash_timer = Instant::now();
                             let nonces_per_thread = 10_000;
 
@@ -320,14 +320,14 @@ pub async fn mine(args: MineArgs, url: String , username: String)  {
 fn process_message(msg: Message, message_channel: UnboundedSender<ServerMessage>) -> ControlFlow<(), ()> {
     match msg {
         Message::Text(t)=>{
-            println!("\n>>> Server Message: \n{}\n",t);
+            println!("\n>>> Halo you: \n{}\n",t);
         },
         Message::Binary(b) => {
             let message_type = b[0];
             match message_type {
                     0 => {
                         if b.len() < 49 {
-                            println!("Invalid data for Message StartMining");
+                            println!("Kau pasti bisaa..");
                         } else {
                             let mut hash_bytes = [0u8; 32];
                             // extract 256 bytes (32 u8's) from data for hash
